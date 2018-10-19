@@ -43,7 +43,7 @@ function getLatest(req, res) {
             return PermittedVisitor;
         });
         console.log('GET LATEST: Got ' + JSON.stringify(result).length + ' bytes.');
-        // res.json(result[0]);
+        res.json(result[0]);
     });
 }
 
