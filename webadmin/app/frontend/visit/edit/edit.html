@@ -1,0 +1,26 @@
+<div class="container-fluid" ng-controller="VisitEditController as visitEditCtrl" ng-init="initData()" ng-submit="createVisit()">
+    <form class=''>
+        <hr>
+        <div class='py-1' ng-repeat="option in formOptions" ng-switch="option.type != 'file'">
+            <div class="d-flex row align-items-center p-1" ng-switch-when="true">
+                <label for="{{option.id}}" class="col-4">{{option.name}}</label>
+                <input type="{{option.type}}" class="col-8 form-control" id="{{option.id}}" ng-model="formData[option.id]">
+            </div>
+            <div ng-switch-when="false" class="d-flex row align-items-center p-1">
+                <label for="{{option.id}}" class="col-4">{{option.name}}</label>
+                <div class="custom-file col-8 col-sm-4 d-flex align-items-center">
+                    <input type="file" class="custom-file-input" app-filereader ng-model="formData[option.id]">
+                    <label class="custom-file-label">Choose file</label>
+                </div>
+                <!-- <input ng-if="option.type == 'file'" type="{{option.type}}" app-filereader class="custom-file-input border-0" ng-model="formData[option.id]"> -->
+                <div class="col-sm-4 d-flex align-items-center" ng-if="formData[option.id] != ''">
+                    <img ng-src="{{formData[option.id]}}" alt="No file selected" class="p-3" style='max-height: 150px'>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class='py-1 text-center'>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+    </form>
+</div>

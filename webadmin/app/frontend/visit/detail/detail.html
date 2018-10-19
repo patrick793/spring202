@@ -1,0 +1,21 @@
+<div class="container-fluid" ng-controller="VisitDetailController as visitDetailCtrl" ng-init="initData()">
+    <hr>
+    <div class='py-1' ng-repeat="option in formOptions" ng-switch="option.type != 'file'">
+        <div class="d-flex row align-items-center p-1" ng-switch-when="true">
+            <label for="{{option.id}}" class="col-4">{{option.name}}</label>
+            <div type="{{option.type}}" class="col-8" id="{{option.id}}">
+                {{data.visitorInfo[option.id]}}
+            </div>
+        </div>
+        <div ng-switch-when="false" class="d-flex row align-items-center p-1">
+            <label for="{{option.id}}" class="col-4">{{option.name}}</label>
+            <div class="col-sm-4 d-flex align-items-center" ng-if="data.visitorInfo[option.id] != ''">
+                <img ng-src="{{data.visitorInfo[option.id]}}" alt="No file selected" class="p-3" style='max-height: 150px'>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class='py-1 text-center'>
+        <button class="btn btn-primary" ui-sref="visit-edit({id: $stateParams.id, data: data})">Edit</button>
+    </div>
+</div>

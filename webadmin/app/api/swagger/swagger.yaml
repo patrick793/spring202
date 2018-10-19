@@ -1,0 +1,209 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: SAFE-ID API
+  description: Common interface between Web Admin UI and Mobile Admin
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths
+basePath: /api/v1
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /visit:
+    x-swagger-router-controller: visit
+    get:
+      description: Returns list of visits matching search parameters
+      operationId: getVisit
+      parameters:
+        - name: visitorName
+          in: query
+          description: The name of the visitor
+          required: false
+          type: string
+        - name: visitorStart
+          in: query
+          description: Start of visit, in YYYY-MM-DD (HTML input date format)
+          required: false
+          type: string
+          format: date
+        - name: visitorEnd
+          in: query
+          description: End of visit, in YYYY-MM-DD (HTML input date format)
+          required: false
+          type: string
+          format: date
+        - name: visitorPurpose
+          description: Purpose of Visit
+          in: query
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Successfully retrieved list of visits
+          schema:
+            $ref: "#/definitions/VisitList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Add a permitted visit
+      operationId: addVisit
+      parameters:
+        - name: newVisitor
+          in: body
+          description: The permitted visitor to be added
+          required: true
+          schema:
+            $ref: '#/definitions/PermittedVisitorInfo'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /visit/{id}:
+    x-swagger-router-controller: visit_id
+    get:
+      description: Get a permitted visit
+      operationId: getVisitById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: Internal ID of client. 24 character hexadecimal string
+        pattern: '^[a-f0-9]{24}$'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PermittedVisitor"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Edit a permitted visit
+      operationId: editVisitById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: Internal ID of client. 24 character hexadecimal string
+        pattern: '^[a-f0-9]{24}$'
+      - name: updatedVisitor
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/PermittedVisitorInfo"
+        description: Updated info of permitted visit
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete a permitted visit
+      operationId: deleteVisitById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: Internal ID of client. 24 character hexadecimal string
+        pattern: '^[a-f0-9]{24}$'
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# complex objects have schema definitions
+definitions:
+  SuccessResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  PermittedVisitorInfo:
+    type: object
+    properties:
+      visitorName:
+        description: The name of the visitor
+        type: string
+      visitorTitle:
+        description: Job Title of visitor
+        type: string
+      visitorCompany:
+        description: Company of Visitor
+        type: string
+      visitorContact:
+        description: Contact Information of Visitor
+        type: string
+      visitorEmail:
+        description: Email Address of Visitor
+        type: string
+      visitorEmpNum:
+        description: Contact Information of Visitor
+        type: string
+      visitorStart:
+        description: Start of visit, in YYYY-MM-DD (HTML input date format)
+        type: string
+        format: date
+      visitorEnd:
+        description: End of visit, in YYYY-MM-DD (HTML input date format)
+        type: string
+        format: date
+      visitorPurpose:
+        description: Purpose of Visit
+        type: string
+    # Image data, WIP
+      visitorPermitIdImage:
+        description: base64-encoded image file containing rendered ID image
+        type: string
+        format: byte
+  PermittedVisitor:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        description: unique id of visitor
+        type: string
+      visitorInfo:
+        $ref: "#/definitions/PermittedVisitorInfo"
+  VisitList:
+    type: array
+    items:
+      $ref: "#/definitions/PermittedVisitor"
