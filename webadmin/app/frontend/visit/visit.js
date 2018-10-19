@@ -27,6 +27,10 @@
         templateUrl: 'visit/search/search.html',
         params : { data: '' }
         })
+        .state('visit-latest', {
+        url: '/visit-latest',
+        templateUrl: 'visit/latest/latest.html'
+        })
     }]);
 
     app.factory('VisitDAO', $resource => {
@@ -56,6 +60,10 @@
                 url: _url_ + '/:id',
                 id: "@id"
             },
+            "getLatestVisit" : {
+                method: "GET",
+                url: 'api/v1/latest'
+            }
         })
     })
 

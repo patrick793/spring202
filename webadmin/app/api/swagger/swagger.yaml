@@ -77,6 +77,20 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /latest:
+    x-swagger-router-controller: visit
+    get:
+      description: Get latest visit
+      operationId: getLatest
+      responses:
+        "200":
+          description: Successfully retrieved list of visits
+          schema:
+            $ref: "#/definitions/PermittedVisitor"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /visit/{id}:
     x-swagger-router-controller: visit_id
     get:
