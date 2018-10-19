@@ -81,10 +81,11 @@
         $scope.loadData = () => {
             console.log($scope.repeater);
             $scope.repeater = $interval(async () => {
-		$scope.dataList = await VisitDAO.getVisitData({});
-	    }, 3000);
+                console.log("List visits");
+		        $scope.dataList = await VisitDAO.getVisitData({});
+	        }, 3000);
         }
-        
+
         $scope.$on("$destroy",function(){
             if (angular.isDefined($scope.repeater)) {
                 $interval.cancel($scope.repeater);
