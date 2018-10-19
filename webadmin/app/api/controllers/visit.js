@@ -42,8 +42,8 @@ function getLatest(req, res) {
 
             return PermittedVisitor;
         });
-        console.log('Got ' + JSON.stringify(result).length + ' bytes.');
-        res.json(result[0]);
+        console.log('GET LATEST: Got ' + JSON.stringify(result).length + ' bytes.');
+        // res.json(result[0]);
     });
 }
 
@@ -73,8 +73,8 @@ function getVisit(req, res) {
 
             return PermittedVisitor;
         });
-        console.log('Got ' + JSON.stringify(result).length + ' bytes.');
-        console.log(result);
+        console.log('LIST VISITS: Got ' + JSON.stringify(result).length + ' bytes.');
+        // console.log(result);
         res.json(result);
     });
 }
