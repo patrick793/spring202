@@ -76,12 +76,20 @@
 
 
         let vm = this;
-	let repeater = {};
+	    $scope.repeater;
         $scope.dataList = {};
         $scope.loadData = () => {
-            repeater = $interval(async () => {
+            console.log($scope.repeater);
+            $scope.repeater = $interval(async () => {
 		$scope.dataList = await VisitDAO.getVisitData({});
 	    }, 3000);
         }
+        
+        $scope.$on("$destroy",function(){
+            if (angular.isDefined($scope.repeater)) {
+                $interval.cancel($scope.repeater);
+            }
+        });
     })
+
 })()

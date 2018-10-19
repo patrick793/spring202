@@ -11,14 +11,21 @@
 
 
         let vm = this;
-        let repeater = {};
+        $scope.repeater = {};
         $scope.data = {};
         $scope.loadData = () => {
-            repeater = $interval(async () => {
+            console.log($scope.repeater);
+            $scope.repeater = $interval(async () => {
                 $scope.data = await VisitDAO.getLatestVisit().$promise;
                 console.log("HEY");
                 console.log($scope.data);
             }, 3000);
-        }
+        } 
+
+        $scope.$on("$destroy",function(){
+            if (angular.isDefined($scope.repeater)) {
+                $interval.cancel($scope.repeater);
+            }
+        });
     })
 })()
