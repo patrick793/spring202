@@ -17,7 +17,7 @@
             console.log($scope.repeater);
             $scope.repeater = $interval(async () => {
                 $scope.data = await VisitDAO.getLatestVisit().$promise;
-                console.log("Get Latest");
+                console.log("List visits" + JSON.stringify($scope.data).length);
             }, 3000);
         } 
 
