@@ -81,7 +81,7 @@
         $scope.loadData = () => {
             console.log($scope.repeater);
             $scope.repeater = $interval(async () => {
-		        $scope.dataList = await VisitDAO.getVisitData({});
+		        $scope.dataList = await VisitDAO.getVisitData({}).$promise;
                 console.log("List visits" + JSON.stringify($scope.dataList).length);
 	        }, 3000);
         }
