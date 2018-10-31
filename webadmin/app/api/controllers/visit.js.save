@@ -15,13 +15,10 @@ module.exports = {
 function getLatest(req, res) {
     let query = {}
     let options = {
-        sort: {
-            date_created: -1
-        },
         skip: 0,
         limit: 1
     };
-    visit.find(query, [], options).exec((err, visit_list) => {
+    visit.find(query, [], options)exec((err, visit_list) => {
 
         let result = visit_list.map(x => {
             const PermittedVisitor = {
@@ -50,9 +47,6 @@ function getLatest(req, res) {
 function getVisit(req, res) {
     let query = {}
     let options = {
-	sort: {
-		date_created: -1,
-	},
         skip: 0,
         limit: 0
     };
